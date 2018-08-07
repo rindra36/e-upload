@@ -1,0 +1,97 @@
+{% load static humanize %}
+{% include 'backoffice/header.html' %}
+{% block content %}
+  <div class="ui text container">
+    <h1 class="ui inverted header linkable" data-href="/backoffice/profile/{{ post.user_id }}">
+      {{ post.user.first_name }} {{ post.user.last_name }}
+    </h1>
+    <h2>Posted {{ post.date_post|naturaltime }}</h2>
+    <div class="ui grid">
+      <div class="seven wide column">
+        <div class="ui labeled button" id="like">
+          <div class="ui red button">
+            <i class="thumbs up outline icon"></i> Like
+          </div>
+          <a class="ui basic red left pointing label">
+            <span class="likeCount">
+              {{ post.votes }}
+            </span>
+          </a>
+        </div>
+      </div>
+      <div class="seven wide column">
+        <i class="comment icon"></i>
+        <span class="commentCount">
+          {{ post.comment_count }}
+        </span>
+        comment{{ post.comment_count|pluralize }}
+      </div>
+    </div>
+    <div class="ui hidden divider"></div>
+    {% if request.user.id == post.user_id %}
+    <div class="ui huge primary button linkable" id="deletePost" data-href="/backoffice/post/delete/{{ post.id }}">Delete Post <i class="trash alternate outline icon"></i></div>
+    {% endif %}
+  </div>
+</div>
+
+<div class="ui vertical stripe segment">
+  <div class="ui middle aligned stackable grid container">
+      <div class="six wide column">
+        <p>{{ post.content }}</p>
+      </div>
+      <div class="nine wide right floated column">
+        <a class="image" href="{% static 'backoffice/images/' %}{{ post.file }}" data-fancybox>
+          <img class="ui large bordered rounded image" src="{% static 'backoffice/images/' %}{{ post.file }}">
+        </a>
+      </div>
+  </div>
+</div>
+
+<div class="ui vertical stripe segment">
+  <div class="ui text container">
+    <div class="ui comments">
+      {% for comments in comments %}
+        <div class="comment">
+          <a class="avatar">
+            {% if comments.user.profile.avatar %}
+              <img src="{% static 'backoffice/images/' %}{{ comments.user.profile.avatar }}">
+            {% else %}
+              <img src="{% static 'backoffice/images/avatar/hacker.png' %}">
+            {% endif %}
+          </a>
+          <div class="content">
+            <a class="author" href="/backoffice/profile/{{ comments.user_id }}">{{ comments.user.first_name }} {{ comments.user.last_name }}</a>
+            <div class="metadata">
+              <span class="date">{{ comments.date_comment|naturaltime }}</span>
+            </div>
+            <div class="text">
+              {{ comments.comment }}
+            </div>
+            <div class="actions">
+              {% if request.user.id == comments.user_id %}
+                <a class="delete" href="/backoffice/post/comment/delete/{{ comments.id }}">Delete</a>
+              {% else %}
+                <a></a>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+      <form class="ui reply form commentForm">
+        {% csrf_token %}
+        {% for commentForm in commentForm.visible_fields %}
+          <div class="field">
+            <label>Write a comment:</label>
+            {{ commentForm }}
+          </div>
+        {% endfor %}
+        <button class="ui blue labeled submit icon button" type="submit">
+          <i class="icon edit"></i>
+          Comment
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% include 'backoffice/footer.html' %}

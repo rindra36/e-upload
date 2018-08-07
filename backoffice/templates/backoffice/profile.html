@@ -1,0 +1,16 @@
+{% load static humanize %}
+{% include 'backoffice/header.html' %}
+{% block content %}
+    <div class="ui text container">
+      <h2 class="ui header"></h2>
+      <img class="ui medium circular centered image" src="{% static 'backoffice/images/' %}{{ userProfile.avatar }}">
+      <h1 class="ui inverted">
+        {{ userProfile.user.first_name }} {{ userProfile.user.last_name }}
+      </h1>
+      <p>{{ userProfile.user.username }}</p>
+    </div>
+  </div>
+
+
+{% endblock %}
+{% include 'backoffice/footer.html' %}

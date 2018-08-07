@@ -1,0 +1,22 @@
+<!-- Modal for new post -->
+<div class="ui tiny modal">
+  <i class="close icon"></i>
+  <div class="header">
+    New Posts
+  </div>
+  <div class="content" style="width: auto;">
+    <form method="post" id="newPostForm" enctype="multipart/form-data" class="ui form">
+      {% csrf_token %}
+      {% for field in postForm.visible_fields %}
+        <div class="field">
+          <label for="{{ field.auto_id }}">{{ field.label }}</label>
+          {{ field }}
+        </div>
+      {% endfor %}
+    </form>
+  </div>
+  <div class="actions">
+    <div class="ui negative basic button cancel">Cancel</div>
+    <button type="submit" class="ui primary basic button" form="newPostForm">Post</button>
+  </div>
+</div>

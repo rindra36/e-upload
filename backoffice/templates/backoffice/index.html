@@ -1,0 +1,141 @@
+{% load static humanize %}
+{% include 'backoffice/header.html' %}
+{% include 'backoffice/modal.html' %}
+{% block content %}
+    <div class="ui text container">
+      <h1 class="ui inverted header">
+        E-UPLOAD
+      </h1>
+      <h2>Welcome to e-upload!</h2>
+      <div class="ui huge primary button" id="newPost">Post something <i class="envelope outline icon"></i></div>
+    </div>
+  </div>
+
+  <div class="ui vertical stripe segment">
+    <div class="ui text container post">
+      <div class="ui clearing segment">
+        <h3 class="ui left floated header">All Recents Posts</h3>
+        <a href="/backoffice/all_post.html" style="float: right;">View All Post</a>
+      </div>
+      {% if allPost %}
+        <div class="glide__1">
+          <div class="glide__track" data-glide-el="track">
+            <ul class="glide__slides">
+              {% for allPost in allPost %}
+              <li class="glide__slide">
+                <div class="ui blue card link linkable" data-href="post/{{ allPost.id }}">
+                <div class="content">
+                  <span class="right floated meta">{{ allPost.date_post|naturaltime }}</span>
+                  <div class="header">
+                    {% if allPost.user.profile.avatar %}
+                    <img src="{% static 'backoffice/images/' %}{{ allPost.user.profile.avatar }}" class="ui avatar image">
+                    {% endif %}
+                    <span>{{ allPost.user.first_name }} {{ allPost.user.last_name }}</span>
+                  </div>
+                  <div class="meta"></div>
+                </div>
+                <div class="content">
+                  <div class="description">
+                    <p>{{ allPost.content }}</p>
+                  </div>
+                </div>
+                {% if allPost.file %}
+                <a class="image">
+                  <img class="ui small bordered rounded image" src="{% static 'backoffice/images/' %}{{ allPost.file }}">
+                </a>
+                {% endif %}
+                <div class="content">
+                  <i class="thumbs up outline like icon"></i>
+                  <span class="{{ allPost.id }} likeCount">
+                    {{ allPost.votes }}
+                  </span>
+                  like{{ allPost.votes|pluralize }}
+                  <span class="right floated">
+                    <i class="comment icon"></i>
+                    <span class="{{ allPost.id }} commentCount">
+                      {{ allPost.comment_count }}
+                    </span>
+                    comment{{ allPost.comment_count|pluralize }}
+                  </span>
+                </div>
+              </div>
+              </li>
+              {% endfor %}
+            </ul>
+          </div>
+          <div data-glide-el="controls" class="glide__arrows">
+            <button data-glide-dir="<" class="glide__arrow glide__arrow--left"><i class="caret left icon"></i></button>
+            <button data-glide-dir=">" class="glide__arrow glide__arrow--right"><i class="caret right icon"></i></button>
+          </div>
+        </div>
+      {% else %}
+      <p>No post was published yet! :(</p>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="ui vertical stripe segment">
+    <div class="ui text container post">
+      <div class="ui clearing segment">
+        <h3 class="ui left floated header">Your Recents Posts</h3>
+        <a href="/backoffice/my_post.html" style="float: right;">View All Your Post</a>
+      </div>
+      {% if userPost %}
+        <div class="glide__2">
+          <div class="glide__track" data-glide-el="track">
+            <ul class="glide__slides">
+              {% for userPost in userPost %}
+              <li class="glide__slide">
+                <div class="ui blue card link linkable" data-href="post/{{ userPost.id }}">
+                <div class="content">
+                  <span class="right floated meta">{{ userPost.date_post|naturaltime }}</span>
+                  <div class="header">
+                    {% if userPost.user.profile.avatar %}
+                    <img src="{% static 'backoffice/images/' %}{{ userPost.user.profile.avatar }}" class="ui avatar image">
+                    {% endif %}
+                    <span>{{ userPost.user.first_name }} {{ userPost.user.last_name }}</span>
+                  </div>
+                  <div class="meta"></div>
+                </div>
+                <div class="content">
+                  <div class="description">
+                    <p>{{ userPost.content }}</p>
+                  </div>
+                </div>
+                {% if userPost.file %}
+                <a class="image">
+                  <img class="ui small bordered rounded image" src="{% static 'backoffice/images/' %}{{ userPost.file }}">
+                </a>
+                {% endif %}
+                <div class="content">
+                  <i class="thumbs up outline like icon"></i>
+                  <span class="{{ userPost.id }} likeCount">
+                    {{ userPost.votes }}
+                  </span>
+                  like{{ userPost.votes|pluralize }}
+                  <span class="right floated">
+                    <i class="comment icon"></i>
+                    <span class="{{ userPost.id }} commentCount">
+                      {{ userPost.comment_count }}
+                    </span>
+                    comment{{ userPost.comment_count|pluralize }}
+                  </span>
+                </div>
+              </div>
+              </li>
+              {% endfor %}
+            </ul>
+          </div>
+          <div data-glide-el="controls" class="glide__arrows">
+            <button data-glide-dir="<" class="glide__arrow glide__arrow--left"><i class="caret left icon"></i></button>
+            <button data-glide-dir=">" class="glide__arrow glide__arrow--right"><i class="caret right icon"></i></button>
+          </div>
+        </div>
+      {% else %}
+      <p>No post was published yet! :(</p>
+      {% endif %}
+    </div>
+  </div>
+
+{% endblock %}
+{% include 'backoffice/footer.html' %}

@@ -1,0 +1,49 @@
+{% include 'registration/header.html' %}
+{% block content %}
+
+    <form class="login100-form validate-form" method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+
+      <span class="login100-form-title p-b-34">
+        E-Upload
+      </span>
+      <span class="login100-form-title p-b-34">
+        Welcome to E-Upload
+      </span>
+
+      {% for hidden_field in form.hidden_fields %}
+        {{ hidden_field.errors }}
+        {{ hidden_field }}
+      {% endfor %}
+
+      {% for field in form.visible_fields %}
+        {% if field.field.widget.input_type == 'password' %}
+          <div class="wrap-input100 rs2-wrap-input100 validate-input m-b-20" data-validate="Type password">
+            {{ field }}
+            <span class="focus-input100"></span>
+          </div>
+        {% else %}
+        <div class="wrap-input100 rs1-wrap-input100 validate-input m-b-20" data-validate="Type user name">
+          {{ field }}
+          <span class="focus-input100"></span>
+        </div>
+        {% endif %}
+      {% endfor %}
+
+      <div class="container-login100-form-btn">
+        <button type="submit" class="login100-form-btn">
+          Sign in
+        </button>
+      </div>
+
+      <div class="w-full text-center p-t-27 p-b-239"></div>
+
+      <div class="w-full text-center">
+        <a href="/signup" class="txt3">
+          Sign Up
+        </a>
+      </div>
+    </form>
+
+{% endblock %}
+{% include 'registration/footer.html' %}

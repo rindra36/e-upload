@@ -1,0 +1,93 @@
+{% load static humanize %}
+{% include 'backoffice/header.html' %}
+{% include 'backoffice/modal.html' %}
+{% block content %}
+    <div class="ui text container">
+      <h1 class="ui inverted header">
+        Your Post
+      </h1>
+      <h2>Want to post something?</h2>
+      <div class="ui huge primary button" id="newPost">Post something <i class="envelope outline icon"></i></div>
+    </div>
+  </div>
+
+  <div class="ui vertical stripe segment">
+
+    {% if post %}
+    <div class="ui text container post">
+
+      {% for message in post %}
+        <div class="ui blue card link linkable" data-href="post/{{ message.id }}">
+          <div class="content">
+            <span class="right floated meta">{{ message.date_post|naturaltime }}</span>
+            <div class="header">
+              {% if message.user.profile.avatar %}
+              <img src="{% static 'backoffice/images/' %}{{ message.user.profile.avatar }}" class="ui avatar image">
+              {% endif %}
+              <span>{{ message.user.first_name }} {{ message.user.last_name }}</span>
+            </div>
+            <div class="meta"></div>
+          </div>
+          <div class="content">
+            <div class="description">
+              <p>{{ message.content }}</p>
+            </div>
+          </div>
+          {% if message.file %}
+          <a class="image">
+            <img class="ui small bordered rounded image" src="{% static 'backoffice/images/' %}{{ message.file }}">
+          </a>
+          {% endif %}
+          <div class="content">
+            <i class="thumbs up outline icon"></i>
+            <span class="{{ message.id }} likeCount">
+              {{ message.votes }}
+            </span>
+            like{{ message.votes|pluralize }}
+            <span class="right floated">
+              <i class="comment icon"></i>
+              <span class="{{ message.id }} commentCount">
+                {{ message.comment_count }}
+              </span>
+              comment{{ message.comment_count|pluralize }}
+            </span>
+          </div>
+        </div>
+      {% endfor %}
+
+      {% if post.has_other_pages %}
+        <div class="ui pagination menu">
+          {% if post.has_previous %}
+            <a href="?page={{ post.previous_page_number }}" class="item">&laquo;</a>
+          {% else %}
+            <a class="disabled item">&laquo;</a>
+          {%endif%}
+          {% for i in post.paginator.page_range %}
+            {% if post.number == i %}
+              <a class="active item">{{ i }}</a>
+            {% else %}
+              <a href="?page={{ i }}" class="item">{{ i }}</a>
+            {% endif %}
+          {% endfor %}
+          {% if post.has_next %}
+            <a href="?page={{ post.next_page_number }}" class="item">&raquo;</a>
+          {% else %}
+            <a class="disabled item">&raquo;</a>
+          {% endif %}
+        </div>
+      {% endif %}
+
+    </div>
+    {% else %}
+    <div class="ui middle aligned stackable grid container">
+      <div class="row">
+        <div class="center aligned column">
+          <h3 class="ui header">No post found! :(</h3>
+          <p>You don't have posting something yet!</p>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+  </div>
+{% endblock %}
+{% include 'backoffice/footer.html' %}

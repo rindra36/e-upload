@@ -1,0 +1,84 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" type="text/css" href="{% static 'backoffice/Semantic-UI/semantic.min.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'backoffice/glide-3.2.1/dist/css/glide.core.min.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'backoffice/glide-3.2.1/dist/css/glide.theme.min.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'backoffice/fancybox/dist/jquery.fancybox.min.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'backoffice/dist/css/style.css' %}">
+
+  <title>Document</title>
+<!-- </head> -->
+<body>
+
+  <!-- Following Menu -->
+  <div class="ui large top fixed hidden menu">
+    <div class="ui container">
+      <a class="header item linkable" data-href="/backoffice">E-upload</a>
+      <a class="item" href="/backoffice">Dashboard</a>
+      <a class="item" href="/backoffice/my_post">My posts</a>
+      <div class="right menu">
+        <a class="ui dropdown item">
+          {% if request.user.profile.avatar %}
+          <img src="{% static 'backoffice/images/' %}{{ request.user.profile.avatar }}" class="ui avatar image">
+          {% endif %}
+          <span>{{ request.user.username }}</span>
+          <i class="dropdown icon"></i>
+          <div class="menu">
+            <div class="item linkable" data-href="/backoffice/profile/{{ request.user.id }}">Profile <i class="user icon"></i></div>
+            <div class="item linkable" data-href="/logout">Log Out <i class="sign out icon"></i></div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sidebar Menu -->
+  <div class="ui vertical inverted sidebar menu">
+    <a class="header item linkable" data-href="/backoffice">E-upload</a>
+    <a class="item" href="/backoffice">Dashboard</a>
+    <a class="item" href="/backoffice/my_post">My posts</a>
+    <div class="ui dropdown item">
+      {% if request.user.profile.avatar %}
+      <img src="{% static 'backoffice/images/' %}{{ request.user.profile.avatar }}" class="ui avatar image">
+      {% endif %}
+      <span>{{ request.user.username }}</span>
+      <i class="dropdown icon"></i>
+      <div class="menu">
+        <div class="item">Profile <i class="user icon"></i></div>
+        <div class="item">Log Out <i class="sign out icon"></i></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Page Contents -->
+  <div class="pusher">
+    <div class="ui inverted vertical masthead center aligned segment">
+
+      <div class="ui container">
+        <div class="ui large secondary inverted pointing menu">
+          <a class="toc item">
+            <i class="sidebar icon"></i>
+          </a>
+          <a class="header item linkable" data-href="/backoffice">E-upload</a>
+          <a class="item" href="/backoffice">Dashboard</a>
+          <a class="item" href="/backoffice/my_post">My posts</a>
+          <div class="right item">
+            <a class="ui dropdown item">
+              {% if request.user.profile.avatar %}
+              <img src="{% static 'backoffice/images/' %}{{ request.user.profile.avatar }}" class="ui avatar image">
+              {% endif %}
+              <span>{{ request.user.username }}</span>
+              <i class="dropdown icon"></i>
+              <div class="menu">
+                <div class="item linkable" data-href="/backoffice/profile/{{ request.user.id }}">Profile <i class="user icon"></i></div>
+                <div class="item linkable" data-href="/logout">Log Out <i class="sign out icon"></i></div>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
